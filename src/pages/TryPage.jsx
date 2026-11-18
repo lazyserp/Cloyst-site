@@ -14,18 +14,23 @@ import {
   Code2,
   FolderGit2,
   Eye,
-  Activity
+  Activity,
+  Server,
+  KeyRound,
+  Shield,
+  Lock,
+  Database
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
 
 export default function TryPage({ setActivePage, openDemoModal }) {
-  const [activePkg, setActivePkg] = useState('pip');
-  const [activeIde, setActiveIde] = useState('cursor');
+  const [activePkg, setActivePkg] = useState('curl');
+  const [activeIde, setActiveIde] = useState('opencode');
   const [copiedHero, setCopiedHero] = useState(false);
   const [copiedPromptIndex, setCopiedPromptIndex] = useState(null);
 
   const handleCopyHero = () => {
-    navigator.clipboard.writeText('pip install m5-engine');
+    navigator.clipboard.writeText('curl -fsSL https://get.cloyst.com | bash');
     setCopiedHero(true);
     setTimeout(() => setCopiedHero(false), 2000);
   };
@@ -36,143 +41,137 @@ export default function TryPage({ setActivePage, openDemoModal }) {
     setTimeout(() => setCopiedPromptIndex(null), 2000);
   };
 
-  const pkgCommands = {
-    pip: 'pip install m5-engine',
-    uv: 'uv pip install m5-engine',
-    python: 'python -m pip install m5-engine'
+  const installCommands = {
+    curl: 'curl -fsSL https://get.cloyst.com | bash',
+    docker: 'docker run -d --gpus all -p 8000:8000 -p 8001:8001 cloyst/cloyst:latest',
+    pip: 'pip install cloyst-cli && cloyst init'
   };
 
-  const ideConfigs = {
+  const agentConfigs = {
+    opencode: {
+      name: 'OpenCode Agent',
+      desc: 'Connect OpenCode autonomous terminal agent to Cloyst AI Gateway for complete sovereign code authoring.',
+      steps: [
+        'Ensure Cloyst Gateway is running at http://localhost:8000/v1.',
+        'Export OPENAI_BASE_URL pointing to your local Cloyst Gateway endpoint.',
+        'Set your Cloyst scoped project API key.',
+        'Run opencode with an autonomous task instruction.'
+      ],
+      codeTitle: 'Terminal (OpenCode Setup)',
+      code: `export OPENAI_BASE_URL="http://localhost:8000/v1"
+export OPENAI_API_KEY="clst_live_9f82d1c7a4b049"
+
+opencode run --auto "Create pii_scrubber.py with mask_email and mask_credit_card functions."`
+    },
     cursor: {
       name: 'Cursor IDE',
-      desc: 'Connect M5 directly to Cursor as an MCP server command.',
+      desc: 'Point Cursor directly to Cloyst as a custom private OpenAI model provider.',
       steps: [
-        'Open Cursor and go to Settings → Features → MCP (or edit ~/.cursor/mcp.json).',
-        'Click "Add New MCP Server" with Name: m5, Type: command, Command: m5 serve',
-        'Or add the JSON snippet below to your ~/.cursor/mcp.json file.',
-        'Open Cursor Chat (Cmd+L / Ctrl+L) and start asking whole-repo questions.'
+        'Open Cursor Settings (Cmd+,) and navigate to Models.',
+        'Under "OpenAI API Key", check Override OpenAI Base URL.',
+        'Enter Base URL: http://localhost:8000/v1 and enter your Cloyst API key.',
+        'Set Model Name: llama-3.3-70b-instruct (or your deployed model) and click Save.'
       ],
-      codeTitle: '~/.cursor/mcp.json',
-      code: `{
-  "mcpServers": {
-    "m5": {
-      "command": "m5",
-      "args": ["serve"]
-    }
-  }
-}`
-    },
-    vscode: {
-      name: 'VS Code',
-      desc: 'Connect M5 to VS Code via native MCP (.vscode/mcp.json) or agent extensions (GitHub Copilot, Cline, Roo Code).',
-      steps: [
-        'In your workspace root, create or open the .vscode/mcp.json configuration file.',
-        'If using Cline or Roo Code, open your extension MCP Settings.',
-        'Paste the m5 stdio server configuration shown below.',
-        'Open Copilot Chat or your agent panel and begin querying multi-file code paths.'
-      ],
-      codeTitle: '.vscode/mcp.json',
-      code: `{
-  "mcpServers": {
-    "m5": {
-      "command": "m5",
-      "args": ["serve"]
-    }
-  }
-}`
-    },
-    codex: {
-      name: 'Codex',
-      desc: 'Equip OpenAI Codex and autonomous coding agents with deterministic AST code intelligence.',
-      steps: [
-        'Open your Codex agent configuration or tool definitions file (e.g. codex.config.json).',
-        'Register the m5 stdio server command with arguments ["serve"].',
-        'Your Codex agent will automatically call m5_get_context and m5_search_code.',
-        'Enables pinpoint call graph analysis without consuming high token windows.'
-      ],
-      codeTitle: 'codex.config.json',
-      code: `{
-  "mcpServers": {
-    "m5": {
-      "command": "m5",
-      "args": ["serve"]
-    }
-  }
-}`
+      codeTitle: 'Cursor Settings → Models',
+      code: `// Cursor Custom Model Configuration:
+Base URL:  http://localhost:8000/v1
+API Key:   clst_live_9f82d1c7a4b049
+Model:     llama-3.3-70b-instruct`
     },
     claude: {
-      name: 'Claude Code & Desktop',
-      desc: 'Add whole-repo AST retrieval to Claude Desktop or Claude Code CLI.',
+      name: 'Claude Code CLI',
+      desc: 'Route Anthropic Claude Code CLI loops through Cloyst with project rate limiting and full audit logging.',
       steps: [
-        'Open your Claude Desktop configuration file (Settings → Developer → Edit Config).',
-        'On Mac: ~/Library/Application Support/Claude/claude_desktop_config.json',
-        'On Windows: %APPDATA%\\Claude\\claude_desktop_config.json',
-        'Paste the mcpServers configuration below and restart Claude.'
+        'Export ANTHROPIC_BASE_URL pointing to the Cloyst AI Gateway.',
+        'Provide your Cloyst RBAC project key.',
+        'Launch claude in your terminal — all requests route to private vLLM compute.'
       ],
-      codeTitle: 'claude_desktop_config.json',
+      codeTitle: 'Terminal (Claude Code)',
+      code: `export ANTHROPIC_BASE_URL="http://localhost:8000/v1"
+export ANTHROPIC_API_KEY="clst_live_9f82d1c7a4b049"
+
+claude "Refactor user authentication pipeline with strict type annotations"`
+    },
+    vscode: {
+      name: 'VS Code & Copilot',
+      desc: 'Connect VS Code AI extensions (Continue, Roo Code, Cline) directly to Cloyst Gateway.',
+      steps: [
+        'Open your extension configuration (e.g. .continue/config.json).',
+        'Add a model entry with provider "openai" pointing to http://localhost:8000/v1.',
+        'Specify your deployed model tag (e.g. llama-3.3-70b-instruct).'
+      ],
+      codeTitle: '~/.continue/config.json',
       code: `{
-  "mcpServers": {
-    "m5": {
-      "command": "m5",
-      "args": ["serve"]
+  "models": [
+    {
+      "title": "Cloyst Private LLM",
+      "provider": "openai",
+      "model": "llama-3.3-70b-instruct",
+      "apiBase": "http://localhost:8000/v1",
+      "apiKey": "clst_live_9f82d1c7a4b049"
     }
-  }
+  ]
 }`
     },
-    windsurf: {
-      name: 'Windsurf',
-      desc: 'Universal stdio MCP server for Codeium Windsurf Cascade.',
+    python: {
+      name: 'Python OpenAI SDK',
+      desc: 'Drop-in replacement for the official OpenAI Python SDK. Exactly two parameters changed.',
       steps: [
-        'Open Windsurf Settings and navigate to Cascade → MCP Servers.',
-        'Add the m5 command server definition as shown below.',
-        'Your Cascade agent can now call m5_get_context with zero Docker and zero open ports.'
+        'Import standard OpenAI client from the openai package.',
+        'Set base_url to your Cloyst Gateway: http://localhost:8000/v1.',
+        'Execute chat completions with streaming SSE support.'
       ],
-      codeTitle: '~/.codeium/windsurf/mcp_config.json',
-      code: `{
-  "mcpServers": {
-    "m5": {
-      "command": "m5",
-      "args": ["serve"]
-    }
-  }
-}`
+      codeTitle: 'main.py (OpenAI SDK)',
+      code: `from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:8000/v1",
+    api_key="clst_live_9f82d1c7a4b049"
+)
+
+response = client.chat.completions.create(
+    model="llama-3.3-70b-instruct",
+    messages=[{"role": "user", "content": "Generate security audit script."}],
+    temperature=0.2
+)
+print(response.choices[0].message.content)`
     }
   };
 
   const testPrompts = [
     {
-      title: '01 / Trace Code Flow',
-      prompt: 'How does authentication and session validation work across this project? Trace the full call path from route to database.',
-      explanation: 'Instead of grepping across dozens of files, your agent queries M5 to pinpoint the exact entrypoint, callers, and database handlers with zero hallucinations.'
+      title: '01 / Autonomous Security Utility',
+      prompt: 'Create pii_scrubber.py with functions mask_email and mask_credit_card and a demo execution block.',
+      explanation: 'OpenCode queries the Cloyst AI Gateway, receives completions in sub-second latency, and autonomously writes the file to disk. Cloyst logs a 200 OK trace with zero external egress.'
     },
     {
-      title: '02 / Refactor Impact Analysis',
-      prompt: 'If I update the user signup logic, which functions, services, and API endpoints across the repo will be affected?',
-      explanation: 'M5 resolves multi-hop callers and type dependencies across all files, giving your agent complete blast-radius awareness before changing code.'
+      title: '02 / Autonomous Pytest Generation',
+      prompt: 'Write a Python file named test_pii.py with pytest test cases testing mask_email and mask_credit_card from pii_scrubber. Return pure Python without markdown.',
+      explanation: 'The model analyzes the newly generated code and produces a rigorous test suite. The trace lands in Cloyst with token consumption, response latency, and metadata-only governance.'
     },
     {
-      title: '03 / Token Savings Verification',
-      prompt: 'How many tokens did M5 save for this prompt compared to loading entire source files into context?',
-      explanation: 'Your agent compares targeted AST slices against whole-file loading, demonstrating an 85%+ reduction in prompt tokens and faster responses.'
+      title: '03 / Zero Cloud Egress Audit Verification',
+      prompt: 'Verify network traffic sockets: zero outbound packets transmitted to api.openai.com or api.anthropic.com.',
+      explanation: 'Check the Cloyst Control Plane at http://localhost:8001/console. Every turn was served locally by vLLM on your private GPU silicon with 100% data sovereignty.'
     }
   ];
 
   return (
     <div className="m5-about-page-root">
       
-      {/* ── 1. Top Hero Section (Black Background & Centered "Try M5 Now") ── */}
+      {/* ── 1. Top Hero Section ───────────────────────────────────────────── */}
       <section className="m5-about-black-hero">
         <div className="m5-hero-inner">
           <div className="m5-about-hero-pill">
-            DEVELOPER TESTING PREVIEW 
+            SOVEREIGN DEVELOPER QUICKSTART
           </div>
 
           <h1 className="m5-about-black-hero-title">
-            Try M5 Now
+            Deploy Cloyst in Under 10 Minutes
           </h1>
 
           <p className="m5-about-black-hero-sub">
-            The zero-cost, air-gapped AST code intelligence engine for AI agents. Give Cursor, VS Code, Codex, Claude Code, or Windsurf whole-repo execution context in under 60 seconds.
+            The model-agnostic sovereign AI infrastructure platform. Run hardware preflight diagnostics, launch private vLLM model runtimes, and connect AI coding agents with zero cloud egress.
           </p>
 
           {/* Quick Terminal Command in Hero */}
@@ -191,7 +190,7 @@ export default function TryPage({ setActivePage, openDemoModal }) {
             color: '#FFFFFF'
           }}>
             <Terminal size={15} color="#FF5A52" />
-            <span>pip install m5-engine</span>
+            <span>curl -fsSL https://get.cloyst.com | bash</span>
             <button
               onClick={handleCopyHero}
               style={{
@@ -217,113 +216,146 @@ export default function TryPage({ setActivePage, openDemoModal }) {
         </div>
       </section>
 
-      {/* ── 2. White Content Section (Matches AboutPage & Theme) ── */}
+      {/* ── 2. White Content Section ──────────────────────────────────────── */}
       <div className="m5-about-page-content">
         <div className="m5-container">
 
           {/* Editorial Intro */}
           <section className="m5-about-hero-block" style={{ marginBottom: '56px' }}>
-            <span className="m5-about-section-tag">TESTER ONBOARDING GUIDE</span>
+            <span className="m5-about-section-tag">THREE-STEP DEPLOYMENT FLOW</span>
             <h2 className="m5-about-title">
-              Connect M5 to your agent in three steps.
+              Turnkey private AI infrastructure in three commands.
             </h2>
             <p className="m5-about-lead">
-              M5 runs 100% locally on your machine. Zero Docker containers, zero open ports, zero API keys to index, and zero code egress. Follow the guide below to index your repository and connect your AI editor.
+              Cloyst runs 100% inside your infrastructure perimeter. Automated GPU preflight validation, self-hosted control plane, high-throughput vLLM orchestration, and drop-in OpenAI API gateway.
             </p>
           </section>
 
-          {/* ── STEP 1: INSTALL ENGINE ── */}
+          {/* ── STEP 1: INSTALL & PREFLIGHT ── */}
           <div className="m5-try-step-wrapper">
             <div className="m5-try-step-header">
-              <span className="m5-value-num">STEP 01 / INSTALLATION</span>
-              <h3 className="m5-try-step-title">Install the M5 Engine CLI</h3>
+              <span className="m5-value-num">STEP 01 / HARDWARE PREFLIGHT</span>
+              <h3 className="m5-try-step-title">Run Automated GPU Preflight Diagnostics</h3>
               <p className="m5-try-step-desc">
-                Requires Python 3.9+. M5 installs as a standalone CLI with embedded Tree-sitter AST parsers and a local vector engine.
+                The Cloyst preflight engine scans your host server to verify GPU architecture, available VRAM, NVIDIA drivers, CUDA 12.x libraries, and container toolkit sockets.
               </p>
             </div>
 
-            {/* Package Manager Toggle */}
+            {/* Install method toggle */}
             <div className="m5-try-pkg-tabs">
+              <button 
+                className={`m5-try-pkg-btn ${activePkg === 'curl' ? 'active' : ''}`}
+                onClick={() => setActivePkg('curl')}
+              >
+                curl install script
+              </button>
+              <button 
+                className={`m5-try-pkg-btn ${activePkg === 'docker' ? 'active' : ''}`}
+                onClick={() => setActivePkg('docker')}
+              >
+                docker container
+              </button>
               <button 
                 className={`m5-try-pkg-btn ${activePkg === 'pip' ? 'active' : ''}`}
                 onClick={() => setActivePkg('pip')}
               >
-                pip
-              </button>
-              <button 
-                className={`m5-try-pkg-btn ${activePkg === 'uv' ? 'active' : ''}`}
-                onClick={() => setActivePkg('uv')}
-              >
-                uv
-              </button>
-              <button 
-                className={`m5-try-pkg-btn ${activePkg === 'python' ? 'active' : ''}`}
-                onClick={() => setActivePkg('python')}
-              >
-                python -m pip
+                pip cli
               </button>
             </div>
 
-            <CodeBlock title="Terminal" code={pkgCommands[activePkg]} language="bash" />
+            <CodeBlock 
+              title="Terminal (Install &amp; Preflight)" 
+              code={`${installCommands[activePkg]}\ncloyst node preflight --verbose`} 
+              language="bash" 
+            />
 
-            
+            {/* Under the Hood 3-Col Cards */}
+            <div className="m5-try-micro-grid">
+              <div className="m5-try-micro-card">
+                <h4 className="m5-try-micro-heading">GPU &amp; VRAM Verification</h4>
+                <p className="m5-try-micro-text">
+                  Detects SXM5/PCIe NVIDIA GPUs (H100, A100, L40S, RTX) and verifies memory headroom for target model weights.
+                </p>
+              </div>
+
+              <div className="m5-try-micro-card">
+                <h4 className="m5-try-micro-heading">CUDA &amp; Driver Check</h4>
+                <p className="m5-try-micro-text">
+                  Confirms driver 535+ and CUDA 12.x runtime compatibility, preventing silent runtime segfaults.
+                </p>
+              </div>
+
+              <div className="m5-try-micro-card">
+                <h4 className="m5-try-micro-heading">Container Engine Hook</h4>
+                <p className="m5-try-micro-text">
+                  Validates NVIDIA Container Toolkit socket availability to launch hardware-accelerated isolated runtimes.
+                </p>
+              </div>
+            </div>
           </div>
 
-          {/* ── STEP 2: SETUP WORKSPACE ── */}
+          {/* ── STEP 2: START CLOYST & DEPLOY MODEL ── */}
           <div className="m5-try-step-wrapper">
             <div className="m5-try-step-header">
-              <span className="m5-value-num">STEP 02 / INITIAL SCAN</span>
-              <h3 className="m5-try-step-title">Scan and index your project</h3>
+              <span className="m5-value-num">STEP 02 / MODEL DEPLOYMENT</span>
+              <h3 className="m5-try-step-title">Start Cloyst &amp; Deploy Private Model</h3>
               <p className="m5-try-step-desc">
-                Run this command inside your repository root. In less than 1 second, M5 parses your AST, maps symbol dependencies into local SQLite, and auto-injects navigation rules into AGENTS.md.
+                Launch the Cloyst Control Plane and Node Agent. Deploy a model from local offline artifacts or registry cache with high-throughput vLLM PagedAttention.
               </p>
             </div>
 
             <CodeBlock 
-              title="Terminal (Run inside your project directory)" 
-              code={`cd /path/to/your/project\nm5 setup`} 
+              title="Terminal (Start &amp; Deploy Model)" 
+              code={`# Start Cloyst Control Plane & Node Agent daemon
+cloyst start --mode airgap
+
+# Deploy open-weight model with high-speed vLLM runtime
+cloyst deploy \\
+  --model llama-3.3-70b-instruct \\
+  --runtime vllm \\
+  --tensor-parallel-size 1 \\
+  --gpu-memory-utilization 0.90`} 
               language="bash" 
             />
 
-            {/* What Happens Under the Hood 3-Col Cards */}
             <div className="m5-try-micro-grid">
               <div className="m5-try-micro-card">
-                <h4 className="m5-try-micro-heading">&lt;1s Tree-sitter Scan</h4>
+                <h4 className="m5-try-micro-heading">Control Plane (:8001)</h4>
                 <p className="m5-try-micro-text">
-                  Parses functions, classes, and calls across 16+ languages (TypeScript, Python, Go, Rust, Java, C++, and more).
+                  Self-hosted management console, model registry, PostgreSQL state, and tamper-evident audit log manager.
                 </p>
               </div>
 
               <div className="m5-try-micro-card">
-                <h4 className="m5-try-micro-heading">Local SQLite Graph</h4>
+                <h4 className="m5-try-micro-heading">AI Gateway (:8000)</h4>
                 <p className="m5-try-micro-text">
-                  Creates a fast, self-contained <code style={{ color: '#B92B23', background: '#F1F1F1', padding: '2px 6px', borderRadius: 4 }}>.m5/</code> folder in your project root. Never pollutes git.
+                  High-throughput OpenAI-compatible API gateway with sub-30ms p95 overhead and metadata-only telemetry.
                 </p>
               </div>
 
               <div className="m5-try-micro-card">
-                <h4 className="m5-try-micro-heading">Auto Agent Rules</h4>
+                <h4 className="m5-try-micro-heading">Health Heartbeats</h4>
                 <p className="m5-try-micro-text">
-                  Injects directives into <code style={{ color: '#B92B23', background: '#F1F1F1', padding: '2px 6px', borderRadius: 4 }}>AGENTS.md</code> so your agent automatically uses M5 instead of grep.
+                  Continuous node agent reconciliation loops detect hardware throttling and container failures automatically.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* ── STEP 3: CONNECT AGENT (INTERACTIVE IDE TABS) ── */}
+          {/* ── STEP 3: CONNECT AGENTS (INTERACTIVE IDE TABS) ── */}
           <div className="m5-try-step-wrapper">
             <div className="m5-try-step-header">
               <span className="m5-value-num">STEP 03 / AGENT CONNECTION</span>
-              <h3 className="m5-try-step-title">Connect M5 to your AI editor</h3>
+              <h3 className="m5-try-step-title">Connect Your AI Coding Agents &amp; SDKs</h3>
               <p className="m5-try-step-desc">
-                Select your preferred editor to see the exact configuration:
+                Select your developer tool to see the exact drop-in configuration. No proprietary plugins required:
               </p>
             </div>
 
             {/* IDE Selector Tabs */}
             <div className="m5-try-ide-tabs">
-              {Object.keys(ideConfigs).map((key) => {
-                const item = ideConfigs[key];
+              {Object.keys(agentConfigs).map((key) => {
+                const item = agentConfigs[key];
                 return (
                   <button
                     key={key}
@@ -344,7 +376,7 @@ export default function TryPage({ setActivePage, openDemoModal }) {
                 color: '#555555',
                 marginBottom: '16px'
               }}>
-                {ideConfigs[activeIde].desc}
+                {agentConfigs[activeIde].desc}
               </p>
 
               <ol style={{
@@ -355,26 +387,25 @@ export default function TryPage({ setActivePage, openDemoModal }) {
                 marginBottom: '16px',
                 lineHeight: '1.7'
               }}>
-                {ideConfigs[activeIde].steps.map((step, idx) => (
+                {agentConfigs[activeIde].steps.map((step, idx) => (
                   <li key={idx} style={{ marginBottom: '6px' }}>{step}</li>
                 ))}
               </ol>
 
               <CodeBlock 
-                title={ideConfigs[activeIde].codeTitle} 
-                code={ideConfigs[activeIde].code} 
-                language="json" 
+                title={agentConfigs[activeIde].codeTitle} 
+                code={agentConfigs[activeIde].code} 
+                language={activeIde === 'python' ? 'python' : 'bash'} 
               />
             </div>
           </div>
 
-
-          {/* ── STEP 4: HOW TO TEST (PROMPT PLAYBOOK) ── */}
+          {/* ── STEP 4: VERIFICATION PLAYBOOK (INVESTOR DEMO SCRIPT) ── */}
           <div className="m5-about-section-header" style={{ marginBottom: '36px' }}>
-            <span className="m5-about-section-tag">TESTER PLAYBOOK • VERIFICATION PROMPTS</span>
-            <h2 className="m5-about-section-title">Test M5 in action with your agent.</h2>
+            <span className="m5-about-section-tag">VERIFICATION PLAYBOOK • LIVE AGENT TESTING</span>
+            <h2 className="m5-about-section-title">Test Cloyst with your agent in real-time.</h2>
             <p className="m5-about-section-sub">
-              Open your agent chat (Cursor, VS Code, Codex, Claude Code, Windsurf) in your newly indexed project and try these multi-file prompts:
+              Execute these real-world autonomous coding commands in your terminal to verify private model inference, tool execution, and zero cloud egress:
             </p>
           </div>
 
@@ -413,64 +444,64 @@ export default function TryPage({ setActivePage, openDemoModal }) {
             ))}
           </div>
 
-          {/* ── 4-Card Grid: Power Tools for Testers (Matches AboutPage 4-Card Grid) ── */}
+          {/* ── 4-Card Grid: Enterprise Operations Toolkit ── */}
           <div className="m5-about-section-header" style={{ marginTop: '72px' }}>
-            <span className="m5-about-section-tag">TESTER TOOLKIT &amp; UTILITIES</span>
-            <h2 className="m5-about-section-title">Built for developer productivity.</h2>
+            <span className="m5-about-section-tag">SOVEREIGN OPERATIONS TOOLKIT</span>
+            <h2 className="m5-about-section-title">Production CLI utilities for private AI.</h2>
             <p className="m5-about-section-sub">
-              Helpful commands to inspect and synchronize your code graph while coding.
+              Purpose-built commands to manage GPU nodes, bundle air-gapped artifacts, and audit inference compliance.
             </p>
           </div>
 
           <div className="m5-values-grid" style={{ marginBottom: '80px' }}>
             <div className="m5-value-card">
-              <span className="m5-value-num">01 / LIVE SYNC</span>
+              <span className="m5-value-num">01 / NODE HEALTH</span>
               <div>
-                <h4 className="m5-value-heading">Incremental File Watcher</h4>
+                <h4 className="m5-value-heading">GPU Topology &amp; Heartbeats</h4>
                 <p className="m5-value-desc">
-                  Run <code style={{ color: '#B92B23' }}>m5 live</code> in your terminal. On every file save, M5 updates the AST call graph incrementally in &lt;50ms without re-scanning.
+                  Run <code style={{ color: '#B92B23' }}>cloyst node list</code> to inspect active GPU nodes, temperature, memory saturation, and heartbeat latency.
                 </p>
               </div>
             </div>
 
             <div className="m5-value-card">
-              <span className="m5-value-num">02 / VISUAL GRAPH</span>
+              <span className="m5-value-num">02 / AIR-GAP BUNDLES</span>
               <div>
-                <h4 className="m5-value-heading">Local Browser UI</h4>
+                <h4 className="m5-value-heading">Offline Artifact Packaging</h4>
                 <p className="m5-value-desc">
-                  Run <code style={{ color: '#B92B23' }}>m5 view</code> to open an interactive graph explorer at <code style={{ color: '#B92B23' }}>http://127.0.0.1:5555</code> to visually trace callers and callees.
+                  Run <code style={{ color: '#B92B23' }}>cloyst bundle create</code> to export signed container images, model weights, and dependency manifests for disconnected data centers.
                 </p>
               </div>
             </div>
 
             <div className="m5-value-card">
-              <span className="m5-value-num">03 / SURGICAL CLI</span>
+              <span className="m5-value-num">03 / TRACING &amp; AUDITING</span>
               <div>
-                <h4 className="m5-value-heading">Direct Terminal Queries</h4>
+                <h4 className="m5-value-heading">Tamper-Evident Logs</h4>
                 <p className="m5-value-desc">
-                  Use <code style={{ color: '#B92B23' }}>m5 trace &lt;query&gt;</code> or <code style={{ color: '#B92B23' }}>m5 callers &lt;sym&gt;</code> directly from CLI to inspect symbol bodies without opening AI chat.
+                  Run <code style={{ color: '#B92B23' }}>cloyst audit tail</code> to view real-time request metadata, token consumption, and verify 0 bytes outbound egress.
                 </p>
               </div>
             </div>
 
             <div className="m5-value-card">
-              <span className="m5-value-num">04 / TEAM CACHE</span>
+              <span className="m5-value-num">04 / RBAC &amp; QUOTAS</span>
               <div>
-                <h4 className="m5-value-heading">CI/CD Index Sharing</h4>
+                <h4 className="m5-value-heading">Project API Key Scoping</h4>
                 <p className="m5-value-desc">
-                  Run <code style={{ color: '#B92B23' }}>m5 dump</code> in CI and <code style={{ color: '#B92B23' }}>m5 pull</code> during onboarding so your team never re-indexes large monorepos from scratch.
+                  Run <code style={{ color: '#B92B23' }}>cloyst key create --project sec-ops</code> to generate cryptographically scoped keys with hard token rate limits.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* ── Call to Action Banner (Matches Screenshot 5) ── */}
+          {/* ── Call to Action Banner ── */}
           <div className="m5-about-cta-card">
             <h2 className="m5-about-cta-title">
-              Testing M5 with a team or monorepo?
+              Ready to deploy Cloyst across your enterprise?
             </h2>
             <p className="m5-about-cta-desc">
-              We work directly with testing engineers to optimize token savings, customize AST grammars, and test enterprise VPC deployments.
+              We work directly with engineering leaders and software vendors to architect air-gapped data centers and customer cloud GPU clusters.
             </p>
             <div className="m5-about-cta-actions">
               <button
@@ -478,20 +509,17 @@ export default function TryPage({ setActivePage, openDemoModal }) {
                 style={{ padding: '12px 28px', fontSize: '15px' }}
                 onClick={openDemoModal}
               >
-                <span>Request Access</span>
+                <span>Request Enterprise Pilot</span>
                 <ArrowRight size={16} />
               </button>
 
-              <a
-                href="https://pypi.org/project/m5-engine/"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
                 className="m5-hero-btn-secondary"
-                style={{ padding: '12px 28px', fontSize: '15px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                style={{ padding: '12px 28px', fontSize: '15px' }}
+                onClick={() => setActivePage('docs')}
               >
-                <span>View PyPI Package</span>
-                <ExternalLink size={15} />
-              </a>
+                <span>Read Architecture Docs</span>
+              </button>
             </div>
           </div>
 

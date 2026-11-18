@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react';
 
 const WORDS = [
   {
-    text: 'Tokens.',
-    type: 'tokens',
+    text: 'Total Control.',
+    type: 'control',
     className: 'hero-serif-tokens'
   },
   {
-    text: 'Money.',
-    type: 'money',
+    text: 'Zero Egress.',
+    type: 'egress',
     className: 'hero-serif-money'
+  },
+  {
+    text: 'Air-Gapped.',
+    type: 'airgap',
+    className: 'hero-serif-tokens'
   }
 ];
 
@@ -42,16 +47,13 @@ export default function HeroTitle() {
   return (
     <div className="hero-giant-headline">
       <div className="hero-headline-row">
-        <span className="hero-word-save">Save</span>
+        <span className="hero-word-save">Any Model.</span>
         <span className="hero-word-flip-slot">
-          {/* Outgoing word smoothly gliding up */}
           {outgoingWord && isTransitioning && (
             <span className={`hero-word-layer outgoing-layer ${outgoingWord.className} word-slide-out`}>
               {outgoingWord.text}
             </span>
           )}
-
-          {/* Active incoming word gliding in from bottom with ease-in-out */}
           <span className={`hero-word-layer active-layer ${activeWord.className} ${isTransitioning ? 'word-slide-in' : 'word-settled'}`}>
             {activeWord.text}
           </span>

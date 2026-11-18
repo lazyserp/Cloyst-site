@@ -1,297 +1,277 @@
-import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, XCircle, Terminal, Shield, Cpu, Layers, GitBranch, GitPullRequest, Check, Server, Laptop, Cloud, Code2, BarChart2 } from 'lucide-react';
-import CodeBlock from '../components/CodeBlock';
+import React from 'react';
+import { 
+  ArrowRight, 
+  CheckCircle2, 
+  Shield, 
+  Cpu, 
+  Layers, 
+  Server, 
+  Cloud, 
+  Lock, 
+  Activity, 
+  FileCheck2, 
+  Zap,
+  TrendingDown
+} from 'lucide-react';
 
-export default function HomePage({ setActivePage, openDemoModal }) {
-  const [activeTab, setActiveTab] = useState('cursor');
+export default function HomePage({ openDemoModal }) {
+  const scrollToFeatures = () => {
+    const el = document.getElementById('features');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const costSavingPillars = [
+    {
+      num: '01',
+      title: 'Eliminate Per-Token Markups',
+      desc: 'Public APIs charge high margins ($15–$30/M tokens). Self-hosting on private GPUs converts variable token taxes into flat, predictable compute—saving 70% to 85% at scale.',
+      icon: TrendingDown
+    },
+    {
+      num: '02',
+      title: 'Right-Size Models by Task',
+      desc: 'Route routine code generation, autocompletions, and unit tests to efficient open-weight models (Qwen 2.5 Coder, Llama 3.3 70B, DeepSeek) rather than expensive frontier APIs.',
+      icon: Cpu
+    },
+    {
+      num: '03',
+      title: 'Local Prefix & KV Caching',
+      desc: 'Coding agents repeatedly process the same repository context. vLLM PagedAttention and local KV caching reuse prompt prefixes to cut redundant compute to near-zero.',
+      icon: Zap
+    },
+    {
+      num: '04',
+      title: 'Zero Cloud Network Egress',
+      desc: 'All inference traffic runs locally within your internal VPC or data center, eliminating third-party API bandwidth markups and cross-zone egress surcharges.',
+      icon: Shield
+    }
+  ];
+
+  const coreFeatures = [
+    {
+      num: '01',
+      title: 'Air-Gapped & Zero Egress',
+      desc: 'Operates with 100% zero external internet connectivity. Compute, weights, and inference pipelines stay strictly within your physical boundary.',
+      icon: Shield
+    },
+    {
+      num: '02',
+      title: 'Total Privacy & Isolation',
+      desc: 'Zero data leaks, zero cloud telemetry, and zero third-party dependencies. Customer proprietary data and prompts never leave your private infrastructure.',
+      icon: Lock
+    },
+    {
+      num: '03',
+      title: 'Audit Control & Compliance',
+      desc: 'Records request latency, token consumption, and node health with metadata-only governance. Full auditability with zero raw prompts or PII retained.',
+      icon: Activity
+    },
+    {
+      num: '04',
+      title: 'Complete Enterprise Governance',
+      desc: 'Project-scoped RBAC API keys, model access policies, rate-limiting quotas, and a centralized private model registry with full administrator control.',
+      icon: Server
+    }
+  ];
 
   return (
     <div className="m5-page-root">
-      {/* ── 1. Hero Section (Deep Burgundy / Crimson Grain Radial) ─────────── */}
+      {/* ── 1. Hero Section ── */}
       <section className="m5-about-hero">
         <div className="m5-hero-inner">
+          <div className="cloyst-hero-badge">
+            <span>SOVEREIGN ENTERPRISE AI INFRASTRUCTURE</span>
+          </div>
+
           <h1 className="m5-hero-title">
-            Save your AI token cost
+            <span className="cloyst-hero-line1">Any Model. Any Infrastructure.</span>
+            <span className="cloyst-hero-highlight">Total Control.</span>
           </h1>
 
           <div className="m5-hero-subtitle">
             <p>
-              M5 supplies the context. Your AI produces the truth.
+              The model-agnostic enterprise AI platform. Deploy & operate LLMs on your own private infrastructure !
             </p>
           </div>
 
-          {/* Hero Action Buttons */}
-          <div className="m5-hero-actions" style={{ marginTop: '16px', display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button
-              className="m5-hero-btn-white"
-              onClick={() => setActivePage('try')}
-            >
-              <span>Try M5 Free</span>
+          {/* Action Buttons */}
+          <div className="cloyst-hero-actions">
+            <button className="m5-hero-btn-white" onClick={openDemoModal}>
+              <span>Request Enterprise Demo</span>
               <ArrowRight size={16} />
             </button>
 
-            <button
-              className="m5-hero-btn-glass"
-              onClick={() => setActivePage('benchmarks')}
-            >
-              <span>Explore Benchmarks</span>
-              
-            </button>
-
-            <button
-              className="m5-hero-btn-glass"
-              onClick={openDemoModal}
-            >
-              <span>Request Access</span>
+            <button className="m5-hero-btn-glass" onClick={scrollToFeatures}>
+              <span>Explore Features</span>
             </button>
           </div>
-        </div>
-      </section>
 
-      {/* ── 2. 6-Column Feature Cards ─────────────────────────────────────── */}
-      <section className="m5-features-section">
-        <div className="m5-container">
-          <h2 className="m5-features-title">
-           Stop paying your LLMs to read <span style={{ fontStyle: 'italic', fontWeight: 300 }}>irrelevant code.</span>
-          </h2>
-
-          <div className="m5-three-cards-grid">
-            {/* Card 1: Token Savings */}
-            <div className="m5-three-card">
-              <div className="m5-three-card-header">
-                <span className="m5-three-card-title">75%+ Token Savings</span>
-                <span style={{ fontFamily: 'PolySans Mono, monospace', fontSize: '13px', color: '#B92B23', fontWeight: 600 }}>01</span>
-              </div>
-              <p className="m5-three-card-desc">
-                Instead of dumping entire files into prompts, M5 gives your LLM only the exact code it needs , cutting token usage and cloud API costs by over 75%.
-              </p>
+          {/* Trust Metrics Bar */}
+          <div className="cloyst-hero-metrics">
+            <div className="cloyst-metric-item">
+              <Shield size={16} color="#FF5A52" />
+              <span>100% Air-Gapped Ready</span>
             </div>
-
-            {/* Card 2: Fast Indexing */}
-            <div className="m5-three-card">
-              <div className="m5-three-card-header">
-                <span className="m5-three-card-title">&lt;100ms File Indexing</span>
-                <span style={{ fontFamily: 'PolySans Mono, monospace', fontSize: '13px', color: '#B92B23', fontWeight: 600 }}>02</span>
-              </div>
-              <p className="m5-three-card-desc">
-                Incremental tree-sitter AST parsing updates your codebase graph instantly on every file save and Git commit, eliminating long background re-indexing delays.
-              </p>
+            <div className="cloyst-metric-item">
+              <Cpu size={16} color="#FF5A52" />
+              <span>&lt;30ms Gateway Overhead</span>
             </div>
-
-            {/* Card 3: Fast Retrieval */}
-            <div className="m5-three-card">
-              <div className="m5-three-card-header">
-                <span className="m5-three-card-title">Sub-15ms Fast Retrieval</span>
-                <span style={{ fontFamily: 'PolySans Mono, monospace', fontSize: '13px', color: '#B92B23', fontWeight: 600 }}>03</span>
-              </div>
-              <p className="m5-three-card-desc">
-                Hybrid Reciprocal Rank Fusion (RRF) fuses lexical BM25 code symbols with dense semantic vectors to deliver pinpoint repository context in under 15 milliseconds.
-              </p>
+            <div className="cloyst-metric-item">
+              <Layers size={16} color="#FF5A52" />
+              <span>Model &amp; Runtime Agnostic</span>
             </div>
-
-            {/* Card 4: Accurate Context */}
-            <div className="m5-three-card">
-              <div className="m5-three-card-header">
-                <span className="m5-three-card-title">Accurate Code Context</span>
-                <span style={{ fontFamily: 'PolySans Mono, monospace', fontSize: '13px', color: '#B92B23', fontWeight: 600 }}>04</span>
-              </div>
-              <p className="m5-three-card-desc">
-                Deterministic AST syntax resolution traverses multi-hop caller chains and companion test suites, providing AI agents verified ground truth with zero hallucinations.
-              </p>
-            </div>
-
-            {/* Card 5: Security / Code Control */}
-            <div className="m5-three-card">
-              <div className="m5-three-card-header">
-                <span className="m5-three-card-title">100% Code in Your Control</span>
-                <span style={{ fontFamily: 'PolySans Mono, monospace', fontSize: '13px', color: '#B92B23', fontWeight: 600 }}>05</span>
-              </div>
-              <p className="m5-three-card-desc">
-                Context-only and air-gap compliant. Zero file writes, zero shell execution, and your source code never leaves your private perimeter or trains third-party models.
-              </p>
-            </div>
-
-            {/* Card 6: Universal Setup */}
-            <div className="m5-three-card">
-              <div className="m5-three-card-header">
-                <span className="m5-three-card-title">Universal 1-Click Setup</span>
-                <span style={{ fontFamily: 'PolySans Mono, monospace', fontSize: '13px', color: '#B92B23', fontWeight: 600 }}>06</span>
-              </div>
-              <p className="m5-three-card-desc">
-                Native Model Context Protocol integrates out of the box with Cursor IDE, Claude Code, Codex, VS Code, Antigravity and other Agentic IDEs with zero setup friction.
-              </p>
+            <div className="cloyst-metric-item">
+              <Lock size={16} color="#FF5A52" />
+              <span>OpenAI Drop-In Compatible</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 3. 16+ Languages Supported (Polyglot Monorepo Support) ────────── */}
-      <section className="m5-languages-section">
+      {/* ── 2. How You Can Reduce Your AI Costs ── */}
+      <section className="cloyst-cost-highlight-section">
         <div className="m5-container">
-          <div className="m5-languages-center-header">
-            <div className="m5-languages-badge-pill">
-              <span>16+ LANGUAGES SUPPORTED</span>
-            </div>
-            <h2 className="m5-values-title-white" style={{ marginBottom: '16px' }}>
-              Deep AST intelligence across your entire stack.
+          <div className="cloyst-section-header">
+            <span className="cloyst-section-tag">AI COST REDUCTION PLAYBOOK</span>
+            <h2 className="m5-values-title">
+              How self-hosting cuts enterprise AI costs by 70–85%.
             </h2>
-            <p className="m5-values-sub" style={{ color: 'rgba(255, 255, 255, 0.65)', marginBottom: '0' }}>
-              Native Tree-sitter AST parsing, syntax-aware chunking, and multi-file dependency resolution for all major languages.
+            <p className="m5-values-sub">
+              Inspired by engineering leaders like Revolut, organizations are moving off commercial cloud APIs to dedicated private compute.
             </p>
           </div>
 
-          <div className="m5-languages-grid">
-            {[
-              { name: 'Python', ext: '.py' },
-              { name: 'TypeScript', ext: '.ts, .tsx'},
-              { name: 'JavaScript', ext: '.js, .jsx'},
-              { name: 'Go', ext: '.go' },
-              { name: 'Rust', ext: '.rs' },
-              { name: 'Java', ext: '.java' },
-              { name: 'C++', ext: '.cpp, .hpp' },
-              { name: 'C', ext: '.c, .h' },
-              { name: 'C#', ext: '.cs' },
-              { name: 'Kotlin', ext: '.kt, .kts' },
-              { name: 'Swift', ext: '.swift' },
-              { name: 'Ruby', ext: '.rb'},
-              { name: 'PHP', ext: '.php'},
-              { name: 'Scala', ext: '.scala' },
-              { name: 'Dart', ext: '.dart' },
-              { name: 'SQL', ext: '.sql' },
-            ].map((lang) => (
-              <div key={lang.name} className="m5-lang-card">
-                <span className="m5-lang-name">{lang.name}</span>
-                <span className="m5-lang-ext">{lang.ext}</span>
-                <span className="m5-lang-ast-tag">{lang.tag}</span>
-              </div>
-            ))}
+          <div className="cloyst-eight-grid">
+            {costSavingPillars.map((pillar) => {
+              const IconComponent = pillar.icon;
+              return (
+                <div key={pillar.num} className="m5-three-card cloyst-feature-card-clean">
+                  <div className="m5-three-card-header">
+                    <div className="cloyst-feature-title-wrap">
+                      <IconComponent size={18} color="#FF5A52" className="cloyst-feature-icon" />
+                      <span className="m5-three-card-title">{pillar.title}</span>
+                    </div>
+                    <span className="cloyst-feature-num-tag">{pillar.num}</span>
+                  </div>
+                  <p className="m5-three-card-desc">{pillar.desc}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ── 4. Flexible Deployment Models (Solo, On-Premises, M5 Cloud) ───── */}
+      {/* ── 4. Core Features (Top 4 Clean Cards) ── */}
+      <section className="m5-features-section" id="features">
+        <div className="m5-container">
+          <div className="cloyst-section-header">
+            <span className="cloyst-section-tag">CORE PLATFORM PILLARS</span>
+            <h2 className="m5-features-title">
+              Everything required to operate private enterprise AI.
+            </h2>
+            <p className="m5-values-sub">
+              Engineered from first principles for restricted infrastructure, sovereign data residency, and high-performance inference.
+            </p>
+          </div>
+
+          <div className="cloyst-four-grid">
+            {coreFeatures.map((feat) => {
+              const IconComponent = feat.icon;
+              return (
+                <div key={feat.num} className="m5-three-card cloyst-feature-card-clean">
+                  <div className="m5-three-card-header">
+                    <div className="cloyst-feature-title-wrap">
+                      <IconComponent size={18} color="#FF5A52" className="cloyst-feature-icon" />
+                      <span className="m5-three-card-title">{feat.title}</span>
+                    </div>
+                    <span className="cloyst-feature-num-tag">{feat.num}</span>
+                  </div>
+                  <p className="m5-three-card-desc">{feat.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. Two Deployment Modes ── */}
       <section className="m5-deploy-section">
         <div className="m5-container">
-          <div style={{ textAlign: 'center', maxWidth: '840px', margin: '0 auto 12px' }}>
-            <span style={{ fontFamily: 'PolySans Mono, monospace', fontSize: '13px', color: '#B92B23', fontWeight: 600, letterSpacing: '-0.01em', textTransform: 'uppercase' }}>
-              DEPLOYMENT MODELS
-            </span>
-            <h2 className="m5-values-title" style={{ marginTop: '12px' }}>
-              Deploy your way. Total control over your codebase.
+          <div className="cloyst-section-header">
+            <span className="cloyst-section-tag">DEPLOYMENT ARCHITECTURE</span>
+            <h2 className="m5-values-title">
+              Two deployment modes. One sovereign core platform.
             </h2>
-            <p className="m5-values-sub" style={{ marginBottom: '0' }}>
-              From offline solo hacking on your laptop to enterprise air-gapped VPCs and fully managed high-availability cloud clusters.
+            <p className="m5-values-sub">
+              Designed from day one to support physical air-gapped data centers and customer-controlled cloud GPU infrastructure.
             </p>
           </div>
 
-          <div className="m5-deploy-grid">
-            {/* Model 1: Solo Local */}
-            <div className="m5-deploy-card">
+          <div className="cloyst-two-deploy-grid">
+            {/* Mode A */}
+            <div className="m5-deploy-card cloyst-card-mode-a">
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span className="m5-deploy-tag">01 / SOLO DEVELOPER</span>
-                  <Laptop size={20} color="#B92B23" />
-                </div>
-                <h3 className="m5-deploy-heading">Embedded Local Engine</h3>
-                <div className="m5-deploy-tagline">Solo engineers &amp; offline workflows</div>
-                <p className="m5-deploy-desc">
-                  Run M5 directly on your workstation with an embedded SQLite store and Tree-sitter AST parser. 100% offline with zero cloud credentials.
-                </p>
-              </div>
-
-              <div>
-                <ul className="m5-deploy-bullets">
-                  <li className="m5-deploy-bullet">
-                    <span>✓</span> Lightweight local CLI &amp; background daemon
-                  </li>
-                  <li className="m5-deploy-bullet">
-                    <span>✓</span> Instant sub-millisecond local vector retrieval
-                  </li>
-                  <li className="m5-deploy-bullet">
-                    <span>✓</span> Zero telemetry — your code never touches the internet
-                  </li>
-                </ul>
-
-                <button 
-                  className="m5-hero-btn-primary" 
-                  style={{ width: '100%', justifyContent: 'center', fontSize: '14px', padding: '10px 16px' }}
-                  onClick={openDemoModal}
-                >
-                  Run Solo CLI
-                </button>
-              </div>
-            </div>
-
-            {/* Model 2: On-Premises & VPC */}
-            <div className="m5-deploy-card" style={{ border: '2px solid #000000' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span className="m5-deploy-tag" style={{ color: '#000000' }}>02 / ON-PREMISES &amp; VPC</span>
+                <div className="cloyst-card-top-row">
+                  <span className="cloyst-deploy-tag-dark">MODE A / PRIMARY FOCUS</span>
                   <Server size={20} color="#000000" />
                 </div>
-                <h3 className="m5-deploy-heading">Air-Gapped Enterprise</h3>
-                <div className="m5-deploy-tagline">Strict corporate compliance &amp; data sovereignty</div>
+                <h3 className="m5-deploy-heading">Air-Gapped &amp; On-Premises</h3>
+                <div className="m5-deploy-tagline">Banking, Healthcare, Defense, Sovereign Enclaves</div>
                 <p className="m5-deploy-desc">
-                  Self-host M5 within your private AWS, GCP, or Azure VPC or bare-metal Kubernetes. Engineered for air-gapped security and monorepo scale.
+                  Deploy Cloyst and models inside customer physical infrastructure. Zero internet dependency during runtime, local authentication, and zero external telemetry.
                 </p>
               </div>
 
               <div>
                 <ul className="m5-deploy-bullets">
                   <li className="m5-deploy-bullet">
-                    <span>✓</span> Secure code transmission.
+                    <span>✓</span> Verified offline model bundles and digitally signed containers
                   </li>
                   <li className="m5-deploy-bullet">
-                    <span>✓</span> Connects with internal Qdrant, Redis &amp; Git servers
+                    <span>✓</span> Self-hosted control plane with durable PostgreSQL state
                   </li>
                   <li className="m5-deploy-bullet">
-                    <span>✓</span> Complete audit trails via Langfuse &amp; OpenTelemetry
+                    <span>✓</span> Tamper-evident local audit logs with zero cloud phone-home
                   </li>
                 </ul>
 
-                <button 
-                  className="m5-hero-btn-primary" 
-                  style={{ width: '100%', justifyContent: 'center', fontSize: '14px', padding: '10px 16px', background: '#000000', color: '#FFFFFF' }}
-                  onClick={openDemoModal}
-                >
-                  Deploy On-Premises
+                <button className="m5-hero-btn-primary cloyst-btn-black" onClick={openDemoModal}>
+                  Request Air-Gapped Deployment
                 </button>
               </div>
             </div>
 
-            {/* Model 3: M5 Managed Cloud */}
-            <div className="m5-deploy-card">
+            {/* Mode B */}
+            <div className="m5-deploy-card cloyst-card-mode-b">
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span className="m5-deploy-tag">03 / M5 MANAGED CLOUD</span>
-                  <Cloud size={20} color="#B92B23" />
+                <div className="cloyst-card-top-row">
+                  <span className="cloyst-deploy-tag-brand">MODE B / CLOUD GPU</span>
+                  <Cloud size={20} color="#FF5A52" />
                 </div>
-                <h3 className="m5-deploy-heading">High-Performance SaaS</h3>
-                <div className="m5-deploy-tagline">Zero infrastructure ops &amp; instant setup</div>
+                <h3 className="m5-deploy-heading">Customer Cloud GPUs</h3>
+                <div className="m5-deploy-tagline">RunPod, Lambda Labs, AWS / GCP Private VPC</div>
                 <p className="m5-deploy-desc">
-                  Production-grade cloud deployment managed 24/7 by M5. Connect GitHub or GitLab in 1 click, get automated AST indexing on every PR, and sub-15ms retrieval worldwide.
+                  Deploy models across customer-approved cloud GPU instances. Cloyst secures node agents over encrypted TLS channels with project-scoped token isolation.
                 </p>
               </div>
 
               <div>
                 <ul className="m5-deploy-bullets">
                   <li className="m5-deploy-bullet">
-                    <span>✓</span> Automated PR webhooks with incremental diff indexing
+                    <span>✓</span> Customer-owned cloud compute keys and isolated VPCs
                   </li>
                   <li className="m5-deploy-bullet">
-                    <span>✓</span> Multi-tenant isolated namespaces with 99.99% uptime
+                    <span>✓</span> Automatic GPU instance enrollment and runtime health monitoring
                   </li>
                   <li className="m5-deploy-bullet">
-                    <span>✓</span> Sub-15ms worldwide API with continuous backups
+                    <span>✓</span> High-throughput OpenAI-compatible API gateway with rate limits
                   </li>
                 </ul>
 
-                <button 
-                  className="m5-hero-btn-primary" 
-                  style={{ width: '100%', justifyContent: 'center', fontSize: '14px', padding: '10px 16px' }}
-                  onClick={openDemoModal}
-                >
-                  Start Cloud Deployment
+                <button className="m5-hero-btn-primary cloyst-btn-full" onClick={openDemoModal}>
+                  Explore Cloud GPU Mode
                 </button>
               </div>
             </div>
@@ -299,53 +279,21 @@ export default function HomePage({ setActivePage, openDemoModal }) {
         </div>
       </section>
 
-      {/* ── 5. "Our Values" 4-Card Grid ──────────────────────────────────── */}
-      <section className="m5-values-section">
+      {/* ── 6. Final Call to Action ── */}
+      <section className="cloyst-final-cta-section">
         <div className="m5-container">
-          <h2 className="m5-values-title">Zero code leaves your building.<br></br> 100% intelligence enters your IDE.</h2>
-          <p className="m5-values-sub">
-            We optimize for context correctness first, token efficiency second, scale always.
-          </p>
-
-          <div className="m5-values-grid">
-            <div className="m5-value-card">
-              <span className="m5-value-num">01 / DETERMINISM</span>
-              <div>
-                <h4 className="m5-value-heading">Deterministic over Probabilistic</h4>
-                <p className="m5-value-desc">
-                  Fuzzy vector searches hallucinate on code syntax. M5 resolves exact AST syntax trees and call hierarchies.
-                </p>
-              </div>
-            </div>
-
-            <div className="m5-value-card">
-              <span className="m5-value-num">02 / INTEGRITY</span>
-              <div>
-                <h4 className="m5-value-heading">Zero File-System Mutation</h4>
-                <p className="m5-value-desc">
-                  Context-only operation. Zero file writes, zero shell execution, and complete isolation from production repositories.
-                </p>
-              </div>
-            </div>
-
-            <div className="m5-value-card">
-              <span className="m5-value-num">03 / VELOCITY</span>
-              <div>
-                <h4 className="m5-value-heading">Milliseconds Matter</h4>
-                <p className="m5-value-desc">
-                  Sub-15ms median retrieval latency ensures autonomous developer agent workflows feel instantaneous and effortless.
-                </p>
-              </div>
-            </div>
-
-            <div className="m5-value-card">
-              <span className="m5-value-num">04 / AUDITABILITY</span>
-              <div>
-                <h4 className="m5-value-heading">Auditable End-to-End</h4>
-                <p className="m5-value-desc">
-                  Every AST chunk served is logged with OpenTelemetry traces and Langfuse observability for complete compliance.
-                </p>
-              </div>
+          <div className="m5-about-cta-card">
+            <h2 className="m5-about-cta-title">
+              Deploy sovereign AI across your enterprise.
+            </h2>
+            <p className="m5-about-cta-desc">
+              We work directly with engineering leaders and software vendors to architect air-gapped data centers and customer cloud GPU clusters.
+            </p>
+            <div className="m5-about-cta-actions">
+              <button className="m5-hero-btn-primary cloyst-btn-padded" onClick={openDemoModal}>
+                <span>Request Enterprise Demo</span>
+                <ArrowRight size={16} />
+              </button>
             </div>
           </div>
         </div>

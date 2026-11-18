@@ -2462,7 +2462,7 @@ li code {
 .m5-hero-inner {
   position: relative;
   z-index: 2;
-  max-width: 900px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -2475,10 +2475,9 @@ li code {
 
 .m5-hero-title {
   font-family: 'Kalice', Georgia, serif;
-  font-size: clamp(34px, 5.2vw, 76px);
-  line-height: 1.05;
+  font-size: clamp(24px, 3.8vw, 62px);
+  line-height: 1.15;
   color: #FFFFFF;
-  text-wrap: balance;
   margin: 0;
   padding: 0;
 }
@@ -4083,4 +4082,507 @@ li code {
 .m5-try-prompt-exp strong {
   color: #111111;
   font-weight: 600;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Cloyst Sovereign AI Platform - Dedicated CSS Classes
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.cloyst-app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  background: #FFFFFF;
+}
+
+.cloyst-main-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.cloyst-mobile-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 8px 0;
+}
+
+.cloyst-mobile-cta {
+  width: 100%;
+  height: 40px;
+}
+
+.cloyst-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 90, 82, 0.12);
+  border: 1px solid rgba(255, 90, 82, 0.28);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-family: 'PolySans Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: #FF7B74;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.cloyst-hero-line1 {
+  display: block;
+}
+
+@media (min-width: 520px) {
+  .cloyst-hero-line1 {
+    white-space: nowrap;
+  }
+}
+
+.cloyst-hero-highlight {
+  display: block;
+  font-style: italic;
+  font-weight: 300;
+  color: #FFFFFF;
+  margin-top: 6px;
+}
+
+.cloyst-hero-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cloyst-hero-metrics {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  font-family: 'PolySans Mono', monospace;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.cloyst-metric-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cloyst-comparison-section {
+  background: #FAF9F6;
+  border-bottom: 1px solid #ECEAE5;
+  padding-top: 64px;
+  padding-bottom: 72px;
+}
+
+.cloyst-section-header {
+  text-align: center;
+  max-width: 840px;
+  margin: 0 auto 40px;
+}
+
+.cloyst-section-tag {
+  font-family: 'PolySans Mono', monospace;
+  font-size: 13px;
+  color: #B92B23;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.cloyst-card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cloyst-card-white {
+  background: #FFFFFF;
+}
+
+.cloyst-card-featured {
+  background: #FFFFFF;
+  border: 2px solid #B92B23;
+  box-shadow: 0 12px 32px rgba(185, 43, 35, 0.08);
+}
+
+.cloyst-deploy-tag-muted {
+  color: #888888;
+  font-family: 'PolySans Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cloyst-deploy-tag-brand {
+  color: #B92B23;
+  font-family: 'PolySans Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cloyst-deploy-tag-dark {
+  color: #000000;
+  font-family: 'PolySans Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cloyst-tagline-green {
+  color: #059669;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'PolySans', sans-serif;
+  margin-bottom: 10px;
+}
+
+.cloyst-bullet-cross {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-family: 'PolySans', sans-serif;
+  font-size: 14px;
+  color: #DC2626;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.cloyst-bullet-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-family: 'PolySans', sans-serif;
+  font-size: 14px;
+  color: #111827;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.cloyst-check-green {
+  color: #059669;
+  font-weight: 700;
+}
+
+.cloyst-four-grid,
+.cloyst-eight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1080px) {
+  .cloyst-four-grid,
+  .cloyst-eight-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .cloyst-four-grid,
+  .cloyst-eight-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cloyst-feature-card-clean {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 24px 20px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.cloyst-feature-card-clean:hover {
+  border-color: #B92B23;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.cloyst-feature-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cloyst-feature-icon {
+  flex-shrink: 0;
+}
+
+.cloyst-feature-num-tag {
+  font-family: 'PolySans Mono', monospace;
+  font-size: 12px;
+  color: #B92B23;
+  font-weight: 600;
+}
+
+.cloyst-agent-section {
+  background: #FFFFFF;
+  padding-top: 64px;
+  padding-bottom: 72px;
+  border-top: 1px solid #F0F0F0;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.cloyst-agent-container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.cloyst-code-panel {
+  background: #111116;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #27272A;
+}
+
+.cloyst-code-panel-desc {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+  margin-bottom: 16px;
+  font-family: 'PolySans', sans-serif;
+  line-height: 1.5;
+}
+
+.cloyst-two-deploy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+@media (max-width: 800px) {
+  .cloyst-two-deploy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cloyst-card-mode-a {
+  border: 2px solid #000000;
+  background: #FFFFFF;
+}
+
+.cloyst-card-mode-b {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #FFFFFF;
+}
+
+.cloyst-btn-black {
+  width: 100%;
+  justify-content: center;
+  font-size: 14px;
+  padding: 10px 16px;
+  background: #000000;
+  color: #FFFFFF;
+}
+
+.cloyst-btn-full {
+  width: 100%;
+  justify-content: center;
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+.cloyst-btn-padded {
+  padding: 12px 28px;
+  font-size: 15px;
+}
+
+.cloyst-final-cta-section {
+  padding-bottom: 60px;
+}
+
+.cloyst-footer-text-col {
+  max-width: 600px;
+}
+
+.cloyst-footer-badges {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.cloyst-footer-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'PolySans Mono', monospace;
+}
+
+.cloyst-email-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cloyst-copy-email-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.cloyst-copy-email-btn:hover {
+  color: #FFFFFF;
+}
+
+.cloyst-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 40px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.cloyst-footer-brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cloyst-footer-brand-name {
+  font-family: 'Kalice', Georgia, serif;
+  font-style: italic;
+  font-size: 20px;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.cloyst-footer-tagline {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'PolySans', sans-serif;
+}
+
+.cloyst-footer-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cloyst-footer-nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 14px;
+  font-family: 'PolySans', sans-serif;
+  transition: color 0.2s ease;
+}
+
+.cloyst-footer-nav-link:hover {
+  color: #FFFFFF;
+}
+
+.cloyst-footer-nav-btn {
+  background: transparent;
+  border: none;
+  color: #FF5A52;
+  font-size: 14px;
+  font-family: 'PolySans', sans-serif;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.cloyst-footer-nav-btn:hover {
+  color: #FF7B74;
+}
+
+.cloyst-footer-copyright {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'PolySans Mono', monospace;
+  width: 100%;
+}
+
+.cloyst-about-hero-sub {
+  font-family: 'PolySans', sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 640px;
+  margin: 16px auto 0;
+  line-height: 1.5;
+}
+
+.cloyst-about-quote-sub {
+  font-family: 'PolySans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 740px;
+  margin: 0 auto 24px;
+}
+
+.cloyst-values-margin-bottom {
+  margin-bottom: 80px;
+}
+
+.cloyst-modal-width {
+  max-width: 580px;
+}
+
+.cloyst-modal-footer-trust {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 11.5px;
+  color: #888888;
+  font-family: 'PolySans Mono', monospace;
+}
+
+
+.cloyst-quote-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  padding: 8px 20px;
+  color: #42FFFC;
+  font-family: 'PolySans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.cloyst-quote-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.cloyst-cost-highlight-section {
+  background: #FFFFFF;
+  padding-top: 64px;
+  padding-bottom: 72px;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.cloyst-cost-grid-margin {
+  margin-bottom: 72px;
 }

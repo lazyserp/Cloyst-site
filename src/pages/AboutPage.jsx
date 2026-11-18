@@ -1,133 +1,167 @@
 import React from 'react';
-import { ArrowRight, ArrowUpRight, Shield, Zap, Lock, Terminal, Cpu, Layers } from 'lucide-react';
+import { ArrowRight, ExternalLink, TrendingDown, DollarSign, Cpu, Zap, Layers, ShieldCheck } from 'lucide-react';
 
-export default function AboutPage({ setActivePage, openDemoModal }) {
+export default function AboutPage({ openDemoModal }) {
+  const costReductionPoints = [
+    {
+      num: '01',
+      title: 'Eliminate Per-Token Markups',
+      desc: 'Public APIs charge $15 to $30 per million tokens. As autonomous coding agents run thousands of tool calls daily, token invoices spiral. Running private GPU instances replaces variable token taxes with flat, predictable compute—saving 70% to 85% at scale.',
+      icon: TrendingDown
+    },
+    {
+      num: '02',
+      title: 'Right-Size Models by Task',
+      desc: 'Instead of routing every routine edit or test run to expensive frontier models, route high-frequency agent tasks to specialized open-weight models (Qwen 2.5 Coder, Llama 3.3 70B, DeepSeek) served at full throughput on private silicon.',
+      icon: Cpu
+    },
+    {
+      num: '03',
+      title: 'Local Prefix Caching in vLLM',
+      desc: 'Autonomous developer workflows repeatedly re-read the same repository context and system prompts. Cloyst utilizes vLLM PagedAttention and KV cache reuse to eliminate redundant token compute on repeated agent turns.',
+      icon: Zap
+    },
+    {
+      num: '04',
+      title: 'Zero Cloud Network Egress Fees',
+      desc: 'All model weights, prompt payloads, and completions stay inside your internal VPC or physical data center. You eliminate third-party API bandwidth surcharges, rate-limit penalty tiers, and data transfer costs.',
+      icon: ShieldCheck
+    }
+  ];
+
   return (
     <div className="m5-about-page-root">
-      
-      {/* ── 1. Top Hero Section (Black Background & Centered "About us") ─── */}
+      {/* ── 1. Top Hero Section ── */}
       <section className="m5-about-black-hero">
         <div className="m5-hero-inner">
           <h1 className="m5-about-black-hero-title">
-            About us
+            About Cloyst
           </h1>
-          
+          <p className="cloyst-about-hero-sub">
+            Any Model. Any Infrastructure. Total Control.
+          </p>
         </div>
       </section>
 
-      {/* ── 2. White Content Section (Black text, Kalice & PolySans) ─────── */}
+      {/* ── 2. Content Section ── */}
       <div className="m5-about-page-content">
         <div className="m5-container">
-
-          {/* ── Editorial Intro ────────────────────────────────────────── */}
+          {/* Editorial Intro */}
           <section className="m5-about-hero-block">
             <h2 className="m5-about-title">
-              Tokens Cost is the real bottleneck in AI.
+              The defining infrastructure challenge of this decade is AI sovereignty.
             </h2>
-
             <p className="m5-about-lead">
-              We believe the next leap in AI coding isn't model intelligence it's context correctness. 
-              M5 decouples retrieval from reasoning, grounding autonomous agents in verified AST truth.
+              Every enterprise wants autonomous AI coding agents and generative intelligence. But for regulated organizations in banking, healthcare, defense, and government, sending source code and sensitive data to public cloud APIs is an unacceptable risk.
             </p>
-
           </section>
 
-
-
-          {/* ── High-Contrast Editorial Case Study: The Runaway Token Crisis ── */}
+          {/* Industry Reality Callout: Revolut Case Study */}
           <div className="m5-about-quote-box">
-            <span className="m5-about-quote-tag">THE RUNAWAY TOKEN CRISIS • INDUSTRY REPORT</span>
+            <span className="m5-about-quote-tag">ENTERPRISE CASE STUDY • INDUSTRY REPORT</span>
             <blockquote className="m5-about-quote-text">
-              “Uber Spent Its Entire 2026 AI Budget in 4 Months.”
+              “How Revolut Slashed AI Coding Costs by 80% Self-Hosting Private Models”
             </blockquote>
-            <p style={{
-              fontFamily: 'PolySans, sans-serif',
-              fontSize: '17px',
-              lineHeight: '1.6',
-              color: 'rgba(255, 255, 255, 0.78)',
-              maxWidth: '740px',
-              margin: '0 auto 24px'
-            }}>
-              Why? Autonomous developer agents dump entire 10,000-line monorepo files into prompt windows. When your LLM is forced to read thousands of lines of irrelevant boilerplate to fix a 2-line function, token budgets collapse.
+            <p className="cloyst-about-quote-sub">
+              Fintech leader Revolut moved away from commercial cloud AI coding assistants to self-hosted open-source models deployed on their own private infrastructure. By eliminating commercial per-seat licensing and variable per-token markups, they achieved massive cost savings while ensuring proprietary financial code never leaves their control.
             </p>
           </div>
 
-          {/* ── Core Engineering Principles: AI Token Cost Optimization (4-Card Grid) ── */}
+          {/* How the Reader Can Reduce AI Costs */}
           <div className="m5-about-section-header">
-            <span className="m5-about-section-tag">TOKEN ECONOMICS &amp; EFFICIENCY</span>
-            <h2 className="m5-about-section-title">How M5 slashes your AI token costs.</h2>
+            <span className="m5-about-section-tag">AI COST REDUCTION PLAYBOOK</span>
+            <h2 className="m5-about-section-title">How you can reduce your enterprise AI costs.</h2>
             <p className="m5-about-section-sub">
-              Four architectural mechanisms designed to prevent AI budget blowouts without compromising model reasoning.
+              Four architectural mechanisms to slash your AI infrastructure budget by 70% to 85% while improving developer privacy.
             </p>
           </div>
 
-          <div className="m5-values-grid" style={{ marginBottom: '80px' }}>
+          <div className="cloyst-eight-grid cloyst-cost-grid-margin">
+            {costReductionPoints.map((point) => {
+              const IconComp = point.icon;
+              return (
+                <div key={point.num} className="m5-three-card cloyst-feature-card-clean">
+                  <div className="m5-three-card-header">
+                    <div className="cloyst-feature-title-wrap">
+                      <IconComp size={18} color="#FF5A52" className="cloyst-feature-icon" />
+                      <span className="m5-three-card-title">{point.title}</span>
+                    </div>
+                    <span className="cloyst-feature-num-tag">{point.num}</span>
+                  </div>
+                  <p className="m5-three-card-desc">{point.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* 4 Core Pillars of Cloyst */}
+          <div className="m5-about-section-header">
+            <span className="m5-about-section-tag">ARCHITECTURAL FOUNDATION</span>
+            <h2 className="m5-about-section-title">The four pillars of Cloyst.</h2>
+            <p className="m5-about-section-sub">
+              Engineered from first principles for air-gapped data centers and high-concurrency enterprise workloads.
+            </p>
+          </div>
+
+          <div className="m5-values-grid cloyst-values-margin-bottom">
             <div className="m5-value-card">
-              <span className="m5-value-num">01 / TOKEN COMPRESSION</span>
+              <span className="m5-value-num">01 / ZERO EGRESS</span>
               <div>
-                <h4 className="m5-value-heading">Sub-AST Chunk Precision</h4>
+                <h4 className="m5-value-heading">Air-Gapped Sovereign Operation</h4>
                 <p className="m5-value-desc">
-                  Instead of dumping 10,000-line files, M5 extracts only the exact function or class required slashing input token payload size by over 75%.
+                  Zero mandatory internet dependencies during runtime. Compute, model weights, local authentication, and audit logs remain strictly within your physical boundary.
                 </p>
               </div>
             </div>
 
             <div className="m5-value-card">
-              <span className="m5-value-num">02 / DEDUPLICATION</span>
+              <span className="m5-value-num">02 / MODEL AGNOSTIC</span>
               <div>
-                <h4 className="m5-value-heading">Boilerplate Elimination</h4>
+                <h4 className="m5-value-heading">True Decoupled Architecture</h4>
                 <p className="m5-value-desc">
-                  Redundant headers, repeated package imports, and dead boilerplate are stripped away before reaching the model context window.
+                  Decouples model weights from infrastructure. Swap between Llama 3, DeepSeek, Qwen 2.5, or proprietary fine-tunes on vLLM and llama.cpp without vendor lock-in.
                 </p>
               </div>
             </div>
 
             <div className="m5-value-card">
-              <span className="m5-value-num">03 / RETRY REDUCTION</span>
+              <span className="m5-value-num">03 / HARDWARE PREFLIGHT</span>
               <div>
-                <h4 className="m5-value-heading">First-Shot Correctness</h4>
+                <h4 className="m5-value-heading">Automated Diagnostics</h4>
                 <p className="m5-value-desc">
-                  The most expensive tokens are repeated hallucination retries. Supplying verified caller graphs upfront gets prompts solved on attempt #1.
+                  Automated preflight checks scan GPUs, driver versions, CUDA runtimes, and memory headroom before model deployment, preventing silent crashes.
                 </p>
               </div>
             </div>
 
             <div className="m5-value-card">
-              <span className="m5-value-num">04 / PREDICTABLE SCALE</span>
+              <span className="m5-value-num">04 / COMPLIANCE</span>
               <div>
-                <h4 className="m5-value-heading">Linear Budget Control</h4>
+                <h4 className="m5-value-heading">Privacy-Preserving Governance</h4>
                 <p className="m5-value-desc">
-                  Sub-15ms local and VPC retrieval keeps costs flat and predictable 
-                  protecting engineering teams from sudden multi-million dollar API overages.
+                  Every inference trace records latency, token counts, and cryptographic identity without logging raw prompt contents or PII, fulfilling SOC2 and HIPAA standards.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* ── Call to Action Banner ─────────────────────────────────── */}
+          {/* CTA Banner */}
           <div className="m5-about-cta-card">
             <h2 className="m5-about-cta-title">
-              Stop paying your LLMs to read irrelevant code.
+              Bring sovereign AI into your organization.
             </h2>
             <p className="m5-about-cta-desc">
-              Connect M5 to Cursor, Claude Code, or your custom agent in under two minutes.
+              Schedule a technical walkthrough with our founding systems architecture team or request a private sandbox deployment.
             </p>
             <div className="m5-about-cta-actions">
-              <button
-                className="m5-hero-btn-primary"
-                style={{ padding: '12px 28px', fontSize: '15px' }}
-                onClick={openDemoModal}
-              >
-                <span>Request Access</span>
+              <button className="m5-hero-btn-primary cloyst-btn-padded" onClick={openDemoModal}>
+                <span>Request Enterprise Demo</span>
                 <ArrowRight size={16} />
               </button>
-              
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
   );
 }

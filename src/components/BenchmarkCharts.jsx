@@ -138,7 +138,7 @@ export function ThroughputChart() {
 
       <div className="bench-takeaway">
         <CheckCircle2 size={13} color="#3B82F6" style={{ flexShrink: 0, marginTop: 2 }} />
-        <span><strong>Takeaway:</strong> Zero performance collapse when 50 developers or background agents query simultaneously.</span>
+        <span><strong>Takeaway:</strong> Cloyst AI Gateway maintains consistent throughput without performance collapse when 50 developer agents query concurrently.</span>
       </div>
     </div>
   );
@@ -428,12 +428,12 @@ export default function BenchmarkCharts() {
       <div className="container">
         {/* Section Header */}
         <div className="section-header" style={{ marginBottom: '40px', maxWidth: '720px' }}>
-          <Eyebrow>Production Benchmarks • Stress Tested</Eyebrow>
+          <Eyebrow>Sovereign Hardware Benchmarks • Stress Tested</Eyebrow>
           <h2 className="section-title">
             Engineered for high concurrency &amp; <span className="highlight-white">deterministic latency</span>.
           </h2>
           <p className="section-desc">
-            Load testing up to 50 concurrent virtual users demonstrates sub-second single-user response, high sustained RPS saturation, and rock-solid p99 tail bounds.
+            Load testing up to 50 concurrent virtual coding agents demonstrates sub-30ms Cloyst Gateway overhead, sustained vLLM GPU saturation, and rock-solid p99 tail bounds with zero cloud telemetry.
           </p>
         </div>
 

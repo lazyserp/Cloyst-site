@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers, GitBranch, GitPullRequest, CheckCircle2, Terminal, ArrowRight, ShieldCheck, Cpu } from 'lucide-react';
+import { Layers, Server, Cpu, ShieldCheck, CheckCircle2, Terminal, ArrowRight, Activity, Lock, Database } from 'lucide-react';
 
 export default function StickyArchitecture({ openDemoModal }) {
   const [activeStep, setActiveStep] = useState(0);
@@ -7,48 +7,48 @@ export default function StickyArchitecture({ openDemoModal }) {
   const steps = [
     {
       id: '01',
-      tag: 'AST HYBRID RRF RETRIEVAL',
-      title: 'Syntax-aware chunking with Reciprocal Rank Fusion.',
-      subtitle: 'Raw vectors miss exact symbols. BM25 misses semantic intent. M5 fuses both.',
-      description: 'Traditional embeddings treat code like plain prose, splitting functions in half and confusing variable names. M5 parses the language Abstract Syntax Tree (AST) directly, preserving semantic boundaries and fusing exact keyword tokens with dense embeddings in sub-15ms.',
+      tag: 'AIR-GAPPED CONTROL PLANE',
+      title: 'Centralized model registry, RBAC, and policy governance.',
+      subtitle: 'Zero external dependencies. PostgreSQL-backed reconciliation and audit trails.',
+      description: 'The Cloyst Control Plane orchestrates GPU node registrations, model artifact lifecycles, and cryptographic authorization. Built with FastAPI and PostgreSQL, it runs entirely within customer infrastructure with zero mandatory cloud telemetry or phone-home validation.',
       bullets: [
-        'Tree-sitter native parsing across 24+ programming languages',
-        'Hybrid Reciprocal Rank Fusion (RRF) over BM25 + Qdrant vectors',
-        'Zero token truncation or mid-scope function splitting'
+        'Project-scoped RBAC and granular API key credential management',
+        'Tamper-evident, metadata-only audit logging for SOC2 & HIPAA compliance',
+        '100% offline operation: local metadata, offline model bundles, zero cloud dependencies'
       ],
-      previewType: 'code-ast',
-      metric: '99.4%',
-      metricLabel: 'Symbol Recall Precision'
+      previewType: 'control-plane',
+      metric: '0.00 B',
+      metricLabel: 'Outbound Internet Egress'
     },
     {
       id: '02',
-      tag: 'MULTI-HOP DEPENDENCY GRAPH',
-      title: 'Context beyond the file boundary.',
-      subtitle: 'Functions do not live in isolation. Neither should your LLM context.',
-      description: 'When an agent inspects a function, M5 traverses the AST dependency graph in real time. It automatically packages 1-hop and 2-hop caller chains, class inheritance hierarchies, and companion unit test suites into a single context payload.',
+      tag: 'NODE AGENT & GPU PREFLIGHT',
+      title: 'Automated hardware discovery, health checks, and container lifecycle.',
+      subtitle: 'Strictly bounded operational envelope. Never executes arbitrary remote shell commands.',
+      description: 'The Cloyst Node Agent runs as an autonomous daemon on managed GPU servers. It executes thorough hardware preflight verification—validating NVIDIA drivers, CUDA versions, VRAM headroom, and container runtimes—before orchestrating high-throughput vLLM and llama.cpp containers.',
       bullets: [
-        'Automatic cross-file call hierarchy resolution',
-        'Zero prompt bloat: only referenced signatures and interface contracts',
-        'Instant discovery of companion test fixtures and mock models'
+        'Automated preflight diagnostics: GPU architecture, CUDA 12.x+, VRAM & container socket',
+        'Heartbeat reconciliation loops to detect node failures and hardware degradation',
+        'Secure validated operational envelope: manages inference containers without arbitrary remote shell execution'
       ],
-      previewType: 'graph',
-      metric: '2-Hop',
-      metricLabel: 'Deep Call-Graph Traversal'
+      previewType: 'node-agent',
+      metric: '< 10s',
+      metricLabel: 'Automated Hardware Preflight'
     },
     {
       id: '03',
-      tag: 'INCREMENTAL GIT CI INDEXING',
-      title: 'Indexes changed diffs in milliseconds, not hours.',
-      subtitle: 'Continuous code context without re-indexing whole monorepos.',
-      description: 'Re-indexing millions of lines of code on every commit is expensive and sluggish. M5 hooks directly into your Git PR lifecycle, indexing only modified AST nodes and updating dependency edges incrementally.',
+      tag: 'OPENAI-COMPATIBLE AI GATEWAY',
+      title: 'Drop-in replacement for OpenAI and Anthropic endpoints.',
+      subtitle: 'Sub-30ms p95 latency overhead. Privacy-preserving metadata-only request telemetry.',
+      description: 'The Cloyst AI Gateway exposes standard /v1/chat/completions, streaming SSE, and /v1/models endpoints. Connect OpenCode, Claude Code, Cursor, Copilot, or internal agents with a single base URL change while enforcing project rate limits and recording compliant audit trails.',
       bullets: [
-        'Save >95% CI compute time compared to full-repo vectorizers',
-        'Automatic branch isolation and ephemeral staging preview contexts',
-        'Read-only security model: zero repo mutation, audited via OpenTelemetry'
+        '100% OpenAI drop-in compatible: routes /v1/chat/completions directly to private models',
+        'Granular token quota enforcement, project rate limiting, and RBAC authentication',
+        'Privacy-preserving by design: logs operational metadata without storing raw prompts or PII'
       ],
-      previewType: 'ci-pipeline',
-      metric: '< 450ms',
-      metricLabel: 'PR Diff Indexing Latency'
+      previewType: 'ai-gateway',
+      metric: '< 30ms',
+      metricLabel: 'Gateway p95 Overhead'
     }
   ];
 
@@ -59,13 +59,13 @@ export default function StickyArchitecture({ openDemoModal }) {
         <div className="section-eyebrow-center">
           <span className="mono-pill-badge">
             <span className="mono-dot" />
-            ENGINEERING SPECIFICATION
+            SYSTEM ARCHITECTURE SPECIFICATION
           </span>
           <h2 className="editorial-section-title">
-            Artisanal precision at <span className="serif-highlight">monorepo scale</span>.
+            Enterprise sovereignty at <span className="serif-highlight">production scale</span>.
           </h2>
           <p className="editorial-section-desc">
-            Three interconnected subsystems engineered specifically for the Model Context Protocol (MCP).
+            Three decoupled, battle-tested subsystems engineered for high-throughput private AI model operations.
           </p>
         </div>
 
@@ -118,11 +118,11 @@ export default function StickyArchitecture({ openDemoModal }) {
                   <span className="dot green" />
                 </div>
                 <div className="visual-header-title">
-                  <code>m5_engine_v2::{steps[activeStep].tag.toLowerCase().replace(/ /g, '_')}</code>
+                  <code>cloyst_core::{steps[activeStep].tag.toLowerCase().replace(/ /g, '_')}</code>
                 </div>
                 <div className="visual-header-badge">
                   <span className="pulse-indicator" />
-                  ONLINE
+                  AIR-GAPPED
                 </div>
               </div>
 
@@ -132,73 +132,76 @@ export default function StickyArchitecture({ openDemoModal }) {
                   <div className="ast-visual-content">
                     <div className="ast-spec-metric-bar">
                       <div className="ast-stat">
-                        <span className="ast-stat-label">RECALL RATE</span>
-                        <span className="ast-stat-val">99.4%</span>
+                        <span className="ast-stat-label">AUDIT INTEGRITY</span>
+                        <span className="ast-stat-val">100% Tamper-Evident</span>
                       </div>
                       <div className="ast-stat">
-                        <span className="ast-stat-label">ALGORITHM</span>
-                        <span className="ast-stat-val">RRF (k=60)</span>
+                        <span className="ast-stat-label">DATABASE</span>
+                        <span className="ast-stat-val">PostgreSQL / SQLite</span>
                       </div>
                       <div className="ast-stat">
-                        <span className="ast-stat-label">LATENCY</span>
-                        <span className="ast-stat-val">12.8ms</span>
+                        <span className="ast-stat-label">EGRESS TRAFFIC</span>
+                        <span className="ast-stat-val" style={{ color: '#059669' }}>0.00 B / sec</span>
                       </div>
                     </div>
 
-                    <div className="ast-code-inspector">
-                      <div className="code-line commented"># Tree-sitter AST Chunk Boundaries [RFC 8421]</div>
-                      <div className="code-line"><span className="token-fn">def</span> <span className="token-name">verify_jwt_session</span>(token: <span className="token-type">str</span>) -&gt; <span className="token-type">AuthSession</span>:</div>
+                    <div className="ast-code-inspector" style={{ background: '#111116', padding: '16px', borderRadius: '8px' }}>
+                      <div className="code-line commented"># Cloyst Control Plane Registry State</div>
+                      <div className="code-line">
+                        <span className="token-fn">registry</span>.<span className="token-name">get_deployment</span>(<span className="token-str">"llama-3.3-70b"</span>)
+                      </div>
                       <div className="code-line indent highlight-chunk">
-                        <span className="token-keyword">payload</span> = jwt.decode(token, SECRET, algorithms=[<span className="token-str">"RS256"</span>])
-                        <span className="ast-chunk-badge">AST Node #824 (Weight: 0.984)</span>
+                        <span className="token-keyword">node_id:</span> <span className="token-str">"gpu-node-alpha-01"</span> (Status: HEALTHY)
+                        <span className="ast-chunk-badge" style={{ background: '#059669', color: '#FFF' }}>Heartbeat 2.4s ago</span>
                       </div>
                       <div className="code-line indent">
-                        <span className="token-keyword">if</span> payload.is_expired():
-                      </div>
-                      <div className="code-line indent-2">
-                        <span className="token-keyword">raise</span> <span className="token-err">SessionExpiredError</span>(payload.session_id)
+                        <span className="token-keyword">runtime:</span> <span className="token-str">"vLLM v0.6.4"</span> | GPU VRAM: 74.2 / 80 GB
                       </div>
                       <div className="code-line indent">
-                        <span className="token-keyword">return</span> <span className="token-type">AuthSession</span>(user_id=payload.sub)
+                        <span className="token-keyword">rbac_policy:</span> <span className="token-str">"proj-eng-internal"</span> (RateLimit: 120 RPM)
+                      </div>
+                      <div className="code-line indent">
+                        <span className="token-keyword">telemetry:</span> <span className="token-str">"METADATA_ONLY"</span> (Raw Prompts: REDACTED)
                       </div>
                     </div>
 
                     <div className="ast-retrieval-summary">
-                      <span className="summary-label">RRF FUSION RESULT:</span>
-                      <span className="summary-match">Exact symbol match: <code>verify_jwt_session</code> (BM25: 1.00) + Semantic Match (Qdrant: 0.968)</span>
+                      <span className="summary-label">COMPLIANCE ATTESTATION:</span>
+                      <span className="summary-match">Zero network sockets bound to external WAN. All encryption keys customer-managed.</span>
                     </div>
                   </div>
                 )}
 
                 {activeStep === 1 && (
-                  <div className="graph-visual-content">
-                    <div className="graph-tree-wrapper">
-                      <div className="graph-node origin-node">
-                        <div className="node-badge">TARGET FUNCTION</div>
-                        <div className="node-code">verify_jwt_session()</div>
+                  <div className="ast-visual-content">
+                    <div className="ast-spec-metric-bar">
+                      <div className="ast-stat">
+                        <span className="ast-stat-label">PREFLIGHT STATUS</span>
+                        <span className="ast-stat-val" style={{ color: '#059669' }}>ALL CHECKS PASS</span>
                       </div>
-
-                      <div className="graph-arrow-down">↓ 1-Hop Callers</div>
-
-                      <div className="graph-children-row">
-                        <div className="graph-node child-node">
-                          <div className="node-badge">CALLER 01</div>
-                          <div className="node-code">api/middleware.py</div>
-                          <span className="node-detail">AuthInterceptor()</span>
-                        </div>
-                        <div className="graph-node child-node">
-                          <div className="node-badge">CALLER 02</div>
-                          <div className="node-code">routes/auth.py</div>
-                          <span className="node-detail">@require_auth</span>
-                        </div>
+                      <div className="ast-stat">
+                        <span className="ast-stat-label">GPU DETECTED</span>
+                        <span className="ast-stat-val">NVIDIA H100 80GB</span>
                       </div>
-
-                      <div className="graph-arrow-down">↓ 2-Hop Test Suite</div>
-
-                      <div className="graph-node test-node">
-                        <div className="node-badge">COMPANION TEST FILE</div>
-                        <div className="node-code">tests/test_jwt_session.py::test_expired_token_raises()</div>
+                      <div className="ast-stat">
+                        <span className="ast-stat-label">RUNTIME</span>
+                        <span className="ast-stat-val">vLLM PagedAttention</span>
                       </div>
+                    </div>
+
+                    <div className="ast-code-inspector" style={{ background: '#111116', padding: '16px', borderRadius: '8px', fontFamily: 'PolySans Mono, monospace' }}>
+                      <div className="code-line commented">$ cloyst-agent preflight --verbose</div>
+                      <div className="code-line" style={{ color: '#10B981' }}>✔ [GPU Discovery] 1x NVIDIA H100 80GB SXM5 (Driver 550.54.14)</div>
+                      <div className="code-line" style={{ color: '#10B981' }}>✔ [CUDA Toolkit] CUDA 12.4 runtime library verified</div>
+                      <div className="code-line" style={{ color: '#10B981' }}>✔ [VRAM Headroom] 79,240 MB available &gt; model requirement (68,400 MB)</div>
+                      <div className="code-line" style={{ color: '#10B981' }}>✔ [Container Runtime] NVIDIA Container Toolkit socket /var/run/docker.sock ready</div>
+                      <div className="code-line" style={{ color: '#10B981' }}>✔ [Storage Check] NVMe scratch space 480 GB available</div>
+                      <div className="code-line" style={{ color: '#38BDF8', marginTop: '6px' }}>➜ Node Agent enrolled securely with Control Plane [Token ID: n-8942b]</div>
+                    </div>
+
+                    <div className="ast-retrieval-summary">
+                      <span className="summary-label">RECONCILIATION LOOP:</span>
+                      <span className="summary-match">Heartbeat interval: 5000ms. Auto-recovery enabled. Zero arbitrary command execution allowed.</span>
                     </div>
                   </div>
                 )}
@@ -207,32 +210,36 @@ export default function StickyArchitecture({ openDemoModal }) {
                   <div className="pipeline-visual-content">
                     <div className="pipeline-row">
                       <div className="pipeline-step done">
-                        <GitPullRequest size={16} />
-                        <span>Git PR #412 Created</span>
-                        <span className="pill-done">TRIGGERED</span>
+                        <Terminal size={16} />
+                        <span>OpenCode / Cursor</span>
+                        <span className="pill-done">AGENT</span>
                       </div>
                       <div className="pipeline-connector" />
                       <div className="pipeline-step processing">
-                        <Cpu size={16} />
-                        <span>AST AST Diff Parser</span>
-                        <span className="pill-speed">18ms</span>
+                        <ShieldCheck size={16} />
+                        <span>Cloyst AI Gateway</span>
+                        <span className="pill-speed">18.4ms</span>
                       </div>
                       <div className="pipeline-connector" />
                       <div className="pipeline-step ready">
-                        <ShieldCheck size={16} />
-                        <span>MCP Vector Index Updated</span>
-                        <span className="pill-ready">READY</span>
+                        <Cpu size={16} />
+                        <span>vLLM Private GPU</span>
+                        <span className="pill-ready">200 OK</span>
                       </div>
                     </div>
 
-                    <div className="pipeline-diff-box">
-                      <div className="diff-header">
-                        <code>DIFF: +14 lines • -3 lines • 1 AST Scope Changed</code>
+                    <div className="pipeline-diff-box" style={{ background: '#111116', padding: '16px', borderRadius: '8px' }}>
+                      <div className="diff-header" style={{ color: '#A1A1AA', fontSize: '12px', borderBottom: '1px solid #27272A', paddingBottom: '8px' }}>
+                        <code>TRACE #TR-9942 • POST /v1/chat/completions • HTTP 200 OK</code>
                       </div>
-                      <div className="diff-lines">
-                        <div className="diff-line removed">-  def validate(token): return True</div>
-                        <div className="diff-line added">+  def validate(token: str) -&gt; bool:</div>
-                        <div className="diff-line added">+    return crypto.constant_time_compare(token, HASH)</div>
+                      <div className="diff-lines" style={{ fontFamily: 'PolySans Mono, monospace', fontSize: '13px', lineHeight: '1.6', marginTop: '8px' }}>
+                        <div style={{ color: '#A1A1AA' }}>{`{`}</div>
+                        <div style={{ color: '#E4E4E7', paddingLeft: '16px' }}>"model": <span style={{ color: '#38BDF8' }}>"llama-3.3-70b-instruct"</span>,</div>
+                        <div style={{ color: '#E4E4E7', paddingLeft: '16px' }}>"tokens_prompt": <span style={{ color: '#F59E0B' }}>842</span>, "tokens_completion": <span style={{ color: '#F59E0B' }}>318</span>,</div>
+                        <div style={{ color: '#E4E4E7', paddingLeft: '16px' }}>"gateway_latency_ms": <span style={{ color: '#10B981' }}>18.4</span>,</div>
+                        <div style={{ color: '#E4E4E7', paddingLeft: '16px' }}>"data_egress_bytes": <span style={{ color: '#10B981' }}>0.00</span>,</div>
+                        <div style={{ color: '#E4E4E7', paddingLeft: '16px' }}>"audit_logged": <span style={{ color: '#10B981' }}>true</span>, "raw_prompt_stored": <span style={{ color: '#EF4444' }}>false</span></div>
+                        <div style={{ color: '#A1A1AA' }}>{`}`}</div>
                       </div>
                     </div>
                   </div>
@@ -246,7 +253,7 @@ export default function StickyArchitecture({ openDemoModal }) {
                   <span className="txt">{steps[activeStep].metricLabel}</span>
                 </div>
                 <button className="btn-pill-white" onClick={openDemoModal}>
-                  <span>Request Live Sandbox</span>
+                  <span>Schedule Architectural Walkthrough</span>
                   <ArrowRight size={14} />
                 </button>
               </div>
